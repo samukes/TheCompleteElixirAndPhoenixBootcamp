@@ -17,4 +17,20 @@ defmodule Discuss.AllcontextFixtures do
 
     topic
   end
+
+  @doc """
+  Generate a user.
+  """
+  def user_fixture(attrs \\ %{}) do
+    {:ok, user} =
+      attrs
+      |> Enum.into(%{
+        email: "some email",
+        provider: "some provider",
+        token: "some token"
+      })
+      |> Discuss.Allcontext.create_user()
+
+    user
+  end
 end
