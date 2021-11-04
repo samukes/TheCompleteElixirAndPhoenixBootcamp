@@ -5,6 +5,7 @@ defmodule Discuss.Allcontext.Topic do
   schema "topics" do
     field :title, :string
     belongs_to :user, Discuss.Allcontext.User
+    has_many :topics, Discuss.Allcontext.Topic
 
     timestamps()
   end

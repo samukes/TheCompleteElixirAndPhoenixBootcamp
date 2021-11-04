@@ -114,4 +114,58 @@ defmodule Discuss.AllcontextTest do
       assert %Ecto.Changeset{} = Allcontext.change_user(user)
     end
   end
+
+  describe "comments" do
+    alias Discuss.Allcontext.Comment
+
+    import Discuss.AllcontextFixtures
+
+    @invalid_attrs %{content: nil}
+
+    test "list_comments/0 returns all comments" do
+      comment = comment_fixture()
+      assert Allcontext.list_comments() == [comment]
+    end
+
+    test "get_comment!/1 returns the comment with given id" do
+      comment = comment_fixture()
+      assert Allcontext.get_comment!(comment.id) == comment
+    end
+
+    test "create_comment/1 with valid data creates a comment" do
+      valid_attrs = %{content: "some content"}
+
+      assert {:ok, %Comment{} = comment} = Allcontext.create_comment(valid_attrs)
+      assert comment.content == "some content"
+    end
+
+    test "create_comment/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Allcontext.create_comment(@invalid_attrs)
+    end
+
+    test "update_comment/2 with valid data updates the comment" do
+      comment = comment_fixture()
+      update_attrs = %{content: "some updated content"}
+
+      assert {:ok, %Comment{} = comment} = Allcontext.update_comment(comment, update_attrs)
+      assert comment.content == "some updated content"
+    end
+
+    test "update_comment/2 with invalid data returns error changeset" do
+      comment = comment_fixture()
+      assert {:error, %Ecto.Changeset{}} = Allcontext.update_comment(comment, @invalid_attrs)
+      assert comment == Allcontext.get_comment!(comment.id)
+    end
+
+    test "delete_comment/1 deletes the comment" do
+      comment = comment_fixture()
+      assert {:ok, %Comment{}} = Allcontext.delete_comment(comment)
+      assert_raise Ecto.NoResultsError, fn -> Allcontext.get_comment!(comment.id) end
+    end
+
+    test "change_comment/1 returns a comment changeset" do
+      comment = comment_fixture()
+      assert %Ecto.Changeset{} = Allcontext.change_comment(comment)
+    end
+  end
 end

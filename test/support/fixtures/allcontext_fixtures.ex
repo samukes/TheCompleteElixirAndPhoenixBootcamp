@@ -33,4 +33,18 @@ defmodule Discuss.AllcontextFixtures do
 
     user
   end
+
+  @doc """
+  Generate a comment.
+  """
+  def comment_fixture(attrs \\ %{}) do
+    {:ok, comment} =
+      attrs
+      |> Enum.into(%{
+        content: "some content"
+      })
+      |> Discuss.Allcontext.create_comment()
+
+    comment
+  end
 end
